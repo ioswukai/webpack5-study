@@ -2,7 +2,8 @@
 const path = require('path') // nodejs 的 path模块
 // 引入 ESLintPlugin插件构造函数
 const ESLintPlugin = require("eslint-webpack-plugin");
-
+// 引入 HtmlWebpackPlugin件构造函数
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 
 module.exports = {
@@ -96,6 +97,11 @@ module.exports = {
         new ESLintPlugin({
             // 检测哪些文件 检测./src目录下的文件
             context: path.resolve(__dirname, "./src"),
+        }),
+        new HtmlWebpackPlugin({
+            // 以 public/index.html 为模板创建文件
+            // 新的html文件有两个特点：1. 内容和源文件一致 2. 自动引入打包生成的js等资源
+            template: path.resolve(__dirname, "public/index.html"),
         }),
     ],
     // 模式 开发模式
