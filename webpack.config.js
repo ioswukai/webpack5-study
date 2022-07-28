@@ -16,7 +16,12 @@ module.exports = {
         // __dirname：模块化函数的参数，表示当前文件的文件夹目录
         path: path.resolve(__dirname, "dist"),
         // 入口文件打包输出文件名
-        filename: "static/js/main.js"
+        filename: "static/js/main.js",
+        // 自动清空上次打包的内容
+        // 原理：在打包前，将整个path目录清空，再进行打包
+        // 当前启用devServer开发服务器后，webpack便会在内存中打包
+        // 不会再在path下输出了，所以在devServer下，这个属性也就不需要了
+        // clean: true
     },
     // 加载器
     module: {
@@ -104,6 +109,22 @@ module.exports = {
             template: path.resolve(__dirname, "public/index.html"),
         }),
     ],
+    // 开发服务器: 不会输出资源，在内存中编译打包的
+    devServer: {
+        host: "localhost", // 启动服务器域名
+        port: "3000", // 启动服务器端口号
+        // 是否自动打开谷歌浏览器 open: boolean string object [string, object]
+        open: {
+            app: {
+                // Linux
+                // name: 'google-chrome',
+                // window
+                // name: 'chrome',
+                // Mac
+                name: 'Google Chrome'
+            },
+        },
+    },
     // 模式 开发模式
     mode: "development"
 }
