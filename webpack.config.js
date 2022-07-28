@@ -83,6 +83,11 @@ module.exports = {
                     filename: "static/media/[hash:10][ext][query]",
                 },
             },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/, // 排除node_modules下的文件，其他文件都处理
+                loader: "babel-loader",
+            },
         ]
     },
     // 插件

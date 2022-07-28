@@ -1,3 +1,3 @@
-export default function count(...args) {
+export default function sum(...args) {
     return args.reduce((p,c) => p + c, 0);
 }
