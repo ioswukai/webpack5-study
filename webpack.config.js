@@ -1,5 +1,10 @@
 /** webpack配置文件*/
 const path = require('path') // nodejs 的 path模块
+// 引入 ESLintPlugin插件构造函数
+const ESLintPlugin = require("eslint-webpack-plugin");
+
+
+
 module.exports = {
     // 入口, 要求使用相对路径
     entry: "./src/main.js",
@@ -81,7 +86,13 @@ module.exports = {
         ]
     },
     // 插件
-    plugins: [],
+    plugins: [
+        // plugin的配置 通过new创建插件的实例
+        new ESLintPlugin({
+            // 检测哪些文件 检测./src目录下的文件
+            context: path.resolve(__dirname, "./src"),
+        }),
+    ],
     // 模式 开发模式
     mode: "development"
 }
