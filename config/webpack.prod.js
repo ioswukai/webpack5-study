@@ -6,7 +6,8 @@ const ESLintPlugin = require("eslint-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 // 引入 MiniCssExtractPlugin插件构造函数
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+// 引入 CssMinimizerPlugin插件构造函数
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 // 用来获取处理样式的loader
 function getStyleLoader(pre) {
@@ -151,6 +152,7 @@ module.exports = {
             // 输出文件的名称，默认把所有`css样式`打包成一个main.css文件输出
             filename: "static/css/main.css",
         }),
+        new CssMinimizerPlugin(),
     ],
     // 模式 开发模式
     mode: "production"
