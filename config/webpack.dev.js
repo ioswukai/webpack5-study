@@ -153,6 +153,7 @@ module.exports = {
             template: path.resolve(__dirname, "../public/index.html"),
         }),
     ],
+    // 优化
     optimization: {
         // 开发模式下不需要压缩
         minimizer: [],

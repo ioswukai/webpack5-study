@@ -194,12 +194,13 @@ module.exports = {
             // 输出文件的名称，默认把所有`css样式`打包成一个main.css文件输出
             filename: "static/css/main.css",
         }),
-        // // css压缩 和 Terser的JS压缩，可以放在optimization设置也是一样的
+        // // css压缩 和 Terser的JS压缩，可以放在optimization优化设置中也是一样的
         // new CssMinimizerPlugin(),
         // new TerserWebpackPlugin({
         //         parallel: threads, // 开启多进程和设置进程数量
         // }),
     ],
+    // 优化
     optimization: {
         // 压缩的操作
         minimizer: [
