@@ -8,6 +8,26 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 
+// 用来获取处理样式的loader
+function getStyleLoader(pre) {
+    return [
+        MiniCssExtractPlugin.loader, // 提取css成单独文件
+        "css-loader", // 将css资源编译成commonjs的模块到js中
+        {
+            loader: "postcss-loader",
+            options: {
+                postcssOptions: {
+                    plugins: [
+                        "postcss-preset-env", // 能解决大多数样式兼容性问题
+                    ],
+                },
+            },
+        },
+        pre, // 如果pre未设置，则其为undefined，通过filter(Boolean)，可以过滤掉它
+    ].filter(Boolean);
+}
+
+
 module.exports = {
     // 入口, 要求使用相对路径
     entry: "./src/main.js",
@@ -29,42 +49,57 @@ module.exports = {
             // loader的配置
             {
                 test: /\.css$/, // 用来匹配 .css 结尾的文件，只检测.css文件
-                use: [
-                    // 执行顺序：从右到左（从下到上）
-                    // 顺序很重要，不可改变
-                    // "style-loader", // 将js中css通过创建style标签添加html文件中生效
-                    MiniCssExtractPlugin.loader, // 将Css提前为单独的文件，并使用link加载样式
-                    "css-loader", // 将css资源编译成commonjs的模块到js中
-                ],
+                // use: [
+                //     // 执行顺序：从右到左（从下到上）
+                //     // 顺序很重要，不可改变
+                //     // "style-loader", // 将js中css通过创建style标签添加html文件中生效
+                //     MiniCssExtractPlugin.loader, // 将Css提前为单独的文件，并使用link加载样式
+                //     "css-loader", // 将css资源编译成commonjs的模块到js中
+                //     {
+                //         loader: "postcss-loader",
+                //         options: {
+                //             postcssOptions: {
+                //                 plugins: [
+                //                     "postcss-preset-env", // 能解决大多数样式兼容性问题
+                //                 ]
+                //             }
+                //         }
+                //     }
+                // ],
+                use: getStyleLoader(),
+
             },
             {
                 test: /\.less$/,
                 // loader: 'xxx', // 只能使用1个loader
-                use: [
-                    // use 可使用多个loader
-                    // "style-loader",
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    "less-loader", // 将less编译成css文件
-                ],
+                // use: [
+                //     // use 可使用多个loader
+                //     // "style-loader",
+                //     MiniCssExtractPlugin.loader,
+                //     "css-loader",
+                //     "less-loader", // 将less编译成css文件
+                // ],
+                use: getStyleLoader("less-loader"),
             },
             {
                 test: /\.s[ac]ss$/,
-                use: [
-                    // "style-loader",
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    "sass-loader", // 将sass编译成css文件
-                ],
+                // use: [
+                //     // "style-loader",
+                //     MiniCssExtractPlugin.loader,
+                //     "css-loader",
+                //     "sass-loader", // 将sass编译成css文件
+                // ],
+                use: getStyleLoader("sass-loader"),
             },
             {
                 test: /\.styl$/,
-                use: [
-                    // "style-loader",
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    "stylus-loader", // 将stylus编译成css文件
-                ],
+                // use: [
+                //     // "style-loader",
+                //     MiniCssExtractPlugin.loader,
+                //     "css-loader",
+                //     "stylus-loader", // 将stylus编译成css文件
+                // ],
+                use: getStyleLoader("stylus-loader"),
             },
             {
                 test: /\.(png|jpe?g|gif|webp|svg)$/,
