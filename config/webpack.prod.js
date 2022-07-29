@@ -137,6 +137,10 @@ module.exports = {
                         // exclude: /node_modules/, // 排除node_modules下的文件，其他文件都处理
                         include: path.resolve(__dirname, "../src"), // 只处理src下的文件，其他文件不处理
                         loader: "babel-loader",
+                        options: {
+                            cacheDirectory: true, // 开启babel编译缓存
+                            cacheCompression: false, // 缓存文件不要压缩，做压缩编译速度会慢，不压缩仅占用电脑磁盘空间，无所谓
+                        },
                     },
                 ]
             }
@@ -148,7 +152,13 @@ module.exports = {
         new ESLintPlugin({
             // 检测哪些文件 检测./src目录下的文件
             context: path.resolve(__dirname, "../src"),
-            exclude: "node_modules" // 默认值，不写也行
+            exclude: "node_modules", // 默认值，不写也行
+            cache: true, // 开启缓存
+            // 缓存目录
+            cacheLocation: path.resolve(
+                __dirname,
+                "../node_modules/.cache/.eslintcache"
+            ),
         }),
         new HtmlWebpackPlugin({
             // 以 public/index.html 为模板创建文件
