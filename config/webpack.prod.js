@@ -1,5 +1,9 @@
 /** 生产模式 webpack配置文件*/
-const path = require('path') // nodejs 的 path模块
+// nodejs 的 path模块
+const path = require('path')
+// nodejs核心模块，直接使用
+const os = require("os");
+
 // 引入 ESLintPlugin插件构造函数
 const ESLintPlugin = require("eslint-webpack-plugin");
 // 引入 HtmlWebpackPlugin件构造函数
@@ -8,6 +12,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // 引入 CssMinimizerPlugin插件构造函数
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+// 引入 内置的TerserWebpackPlugin插件构造函数
+const TerserWebpackPlugin = require("terser-webpack-plugin");
+
+// cpu核数
+const threads = os.cpus().length;
 
 // 用来获取处理样式的loader
 function getStyleLoader(pre) {
@@ -136,11 +145,26 @@ module.exports = {
                         test: /\.js$/,
                         // exclude: /node_modules/, // 排除node_modules下的文件，其他文件都处理
                         include: path.resolve(__dirname, "../src"), // 只处理src下的文件，其他文件不处理
-                        loader: "babel-loader",
-                        options: {
-                            cacheDirectory: true, // 开启babel编译缓存
-                            cacheCompression: false, // 缓存文件不要压缩，做压缩编译速度会慢，不压缩仅占用电脑磁盘空间，无所谓
-                        },
+                        // loader: "babel-loader",
+                        // options: {
+                        //     cacheDirectory: true, // 开启babel编译缓存
+                        //     cacheCompression: false, // 缓存文件不要压缩，做压缩编译速度会慢，不压缩仅占用电脑磁盘空间，无所谓
+                        // },
+                        use: [
+                            {
+                                loader: "thread-loader", // 开启多进程
+                                options: {
+                                    works: threads, // 进程数量
+                                }
+                            },
+                            {
+                                loader: "babel-loader",
+                                options: {
+                                    cacheDirectory: true, // 开启babel编译缓存
+                                    cacheCompression: false, // 缓存文件不要压缩，做压缩编译速度会慢，不压缩仅占用电脑磁盘空间，无所谓
+                                },
+                            }
+                        ],
                     },
                 ]
             }
@@ -159,6 +183,7 @@ module.exports = {
                 __dirname,
                 "../node_modules/.cache/.eslintcache"
             ),
+            threads, // 开启多进程及进程数量
         }),
         new HtmlWebpackPlugin({
             // 以 public/index.html 为模板创建文件
@@ -169,8 +194,23 @@ module.exports = {
             // 输出文件的名称，默认把所有`css样式`打包成一个main.css文件输出
             filename: "static/css/main.css",
         }),
-        new CssMinimizerPlugin(),
+        // // css压缩 和 Terser的JS压缩，可以放在optimization设置也是一样的
+        // new CssMinimizerPlugin(),
+        // new TerserWebpackPlugin({
+        //         parallel: threads, // 开启多进程和设置进程数量
+        // }),
     ],
+    optimization: {
+        // 压缩的操作
+        minimizer: [
+            // 压缩css
+            new CssMinimizerPlugin(),
+            // 压缩js
+            new TerserWebpackPlugin({
+                parallel: threads, // 开启多进程和设置进程数量
+            }),
+        ],
+    },
     // 模式 开发模式
     mode: "production",
     // 启用SourceMap 映射 行和列，速度更慢

@@ -1,10 +1,16 @@
 /** 开发模式 webpack配置文件*/
-const path = require('path') // nodejs 的 path模块
+// nodejs 的 path模块
+const path = require('path')
+// nodejs核心模块，直接使用
+const os = require("os");
+
 // 引入 ESLintPlugin插件构造函数
 const ESLintPlugin = require("eslint-webpack-plugin");
 // 引入 HtmlWebpackPlugin件构造函数
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+// cpu核数
+const threads = os.cpus().length;
 
 module.exports = {
     // 入口, 要求使用相对路径
@@ -101,11 +107,26 @@ module.exports = {
                         test: /\.js$/,
                         // exclude: /node_modules/, // 排除node_modules下的文件，其他文件都处理
                         include: path.resolve(__dirname, "../src"), // 只处理src下的文件，其他文件不处理
-                        loader: "babel-loader",
-                        options: {
-                            cacheDirectory: true, // 开启babel编译缓存
-                            cacheCompression: false, // 缓存文件不要压缩，做压缩编译速度会慢，不压缩仅占用电脑磁盘空间，无所谓
-                        },
+                        // loader: "babel-loader",
+                        // options: {
+                        //     cacheDirectory: true, // 开启babel编译缓存
+                        //     cacheCompression: false, // 缓存文件不要压缩，做压缩编译速度会慢，不压缩仅占用电脑磁盘空间，无所谓
+                        // },
+                        use: [
+                            {
+                                loader: "thread-loader", // 开启多进程
+                                options: {
+                                    works: threads, // 进程数量
+                                }
+                            },
+                            {
+                                loader: "babel-loader",
+                                options: {
+                                    cacheDirectory: true, // 开启babel编译缓存
+                                    cacheCompression: false, // 缓存文件不要压缩，做压缩编译速度会慢，不压缩仅占用电脑磁盘空间，无所谓
+                                },
+                            }
+                        ],
                     },
                 ]
             }
@@ -124,6 +145,7 @@ module.exports = {
                 __dirname,
                 "../node_modules/.cache/.eslintcache"
             ),
+            threads, // 开启多进程及进程数量
         }),
         new HtmlWebpackPlugin({
             // 以 public/index.html 为模板创建文件
@@ -131,6 +153,10 @@ module.exports = {
             template: path.resolve(__dirname, "../public/index.html"),
         }),
     ],
+    optimization: {
+        // 开发模式下不需要压缩
+        minimizer: [],
+    },
     // 开发服务器: 不会输出资源，在内存中编译打包的
     devServer: {
         host: "localhost", // 启动服务器域名
