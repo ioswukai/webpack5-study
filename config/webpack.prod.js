@@ -14,6 +14,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 // 引入 内置的TerserWebpackPlugin插件构造函数
 const TerserWebpackPlugin = require("terser-webpack-plugin");
+// 引入 ImageMinimizerPlugin插件构造函数
+// const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 // cpu核数
 const threads = os.cpus().length;
@@ -195,10 +197,37 @@ module.exports = {
             // 输出文件的名称，默认把所有`css样式`打包成一个main.css文件输出
             filename: "static/css/main.css",
         }),
-        // // css压缩 和 Terser的JS压缩，可以放在optimization优化设置中也是一样的
+        // css压缩 和 Terser的JS压缩，以及ImageMinimizerPlugin的图片压缩 可以放在optimization优化设置中也是一样的
         // new CssMinimizerPlugin(),
         // new TerserWebpackPlugin({
         //         parallel: threads, // 开启多进程和设置进程数量
+        // }),
+        // new ImageMinimizerPlugin({
+        //     minimizer: {
+        //         implementation: ImageMinimizerPlugin.imageminGenerate,
+        //         options: {
+        //             plugins: [
+        //                 ["gifsicle", { interlaced: true }],
+        //                 ["jpegtran", { progressive: true }],
+        //                 ["optipng", { optimizationLevel: 5 }],
+        //                 [
+        //                     "svgo",
+        //                     {
+        //                         plugins: [
+        //                             "preset-default",
+        //                             "prefixIds",
+        //                             {
+        //                                 name: "sortAttrs",
+        //                                 params: {
+        //                                     xmlnsOrder: "alphabetical",
+        //                                 },
+        //                             },
+        //                         ],
+        //                     },
+        //                 ],
+        //             ],
+        //         },
+        //     },
         // }),
     ],
     // 优化
@@ -211,6 +240,34 @@ module.exports = {
             new TerserWebpackPlugin({
                 parallel: threads, // 开启多进程和设置进程数量
             }),
+            // 压缩图片
+            // new ImageMinimizerPlugin({
+            //     minimizer: {
+            //         implementation: ImageMinimizerPlugin.imageminGenerate,
+            //         options: {
+            //             plugins: [
+            //                 ["gifsicle", { interlaced: true }],
+            //                 ["jpegtran", { progressive: true }],
+            //                 ["optipng", { optimizationLevel: 5 }],
+            //                 [
+            //                     "svgo",
+            //                     {
+            //                         plugins: [
+            //                             "preset-default",
+            //                             "prefixIds",
+            //                             {
+            //                                 name: "sortAttrs",
+            //                                 params: {
+            //                                     xmlnsOrder: "alphabetical",
+            //                                 },
+            //                             },
+            //                         ],
+            //                     },
+            //                 ],
+            //             ],
+            //         },
+            //     },
+            // }),
         ],
     },
     // 模式 开发模式
