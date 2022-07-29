@@ -4,6 +4,8 @@ const path = require('path') // nodejs 的 path模块
 const ESLintPlugin = require("eslint-webpack-plugin");
 // 引入 HtmlWebpackPlugin件构造函数
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+// 引入 MiniCssExtractPlugin插件构造函数
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 
 module.exports = {
@@ -30,7 +32,8 @@ module.exports = {
                 use: [
                     // 执行顺序：从右到左（从下到上）
                     // 顺序很重要，不可改变
-                    "style-loader", // 将js中css通过创建style标签添加html文件中生效
+                    // "style-loader", // 将js中css通过创建style标签添加html文件中生效
+                    MiniCssExtractPlugin.loader, // 将Css提前为单独的文件，并使用link加载样式
                     "css-loader", // 将css资源编译成commonjs的模块到js中
                 ],
             },
@@ -39,7 +42,8 @@ module.exports = {
                 // loader: 'xxx', // 只能使用1个loader
                 use: [
                     // use 可使用多个loader
-                    "style-loader",
+                    // "style-loader",
+                    MiniCssExtractPlugin.loader,
                     "css-loader",
                     "less-loader", // 将less编译成css文件
                 ],
@@ -47,7 +51,8 @@ module.exports = {
             {
                 test: /\.s[ac]ss$/,
                 use: [
-                    "style-loader",
+                    // "style-loader",
+                    MiniCssExtractPlugin.loader,
                     "css-loader",
                     "sass-loader", // 将sass编译成css文件
                 ],
@@ -55,7 +60,8 @@ module.exports = {
             {
                 test: /\.styl$/,
                 use: [
-                    "style-loader",
+                    // "style-loader",
+                    MiniCssExtractPlugin.loader,
                     "css-loader",
                     "stylus-loader", // 将stylus编译成css文件
                 ],
@@ -105,6 +111,10 @@ module.exports = {
             // 以 public/index.html 为模板创建文件
             // 新的html文件有两个特点：1. 内容和源文件一致 2. 自动引入打包生成的js等资源
             template: path.resolve(__dirname, "../public/index.html"),
+        }),
+        new MiniCssExtractPlugin({
+            // 输出文件的名称，默认把所有`css样式`打包成一个main.css文件输出
+            filename: "static/css/main.css",
         }),
     ],
     // 模式 开发模式
