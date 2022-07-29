@@ -99,7 +99,8 @@ module.exports = {
                     },
                     {
                         test: /\.js$/,
-                        exclude: /node_modules/, // 排除node_modules下的文件，其他文件都处理
+                        // exclude: /node_modules/, // 排除node_modules下的文件，其他文件都处理
+                        include: path.resolve(__dirname, "../src"), // 只处理src下的文件，其他文件不处理
                         loader: "babel-loader",
                     },
                 ]
@@ -112,6 +113,7 @@ module.exports = {
         new ESLintPlugin({
             // 检测哪些文件 检测./src目录下的文件
             context: path.resolve(__dirname, "../src"),
+            exclude: "node_modules" // 默认值，不写也行
         }),
         new HtmlWebpackPlugin({
             // 以 public/index.html 为模板创建文件
