@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "./src/main.js",
-  "scripts": {},
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "webpack serve --config ./config/webpack.dev.js",
+    "build": "webpack --config ./config/webpack.prod.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ioswukai/webpack5-study.git"

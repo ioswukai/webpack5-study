@@ -1,4 +1,4 @@
-/** webpack配置文件*/
+/** 生产模式 webpack配置文件*/
 const path = require('path') // nodejs 的 path模块
 // 引入 ESLintPlugin插件构造函数
 const ESLintPlugin = require("eslint-webpack-plugin");
@@ -14,14 +14,12 @@ module.exports = {
         // 文件的输出路径，要求使用绝对的路径
         // path.resolve()方法返回一个绝对路径
         // __dirname：模块化函数的参数，表示当前文件的文件夹目录
-        path: path.resolve(__dirname, "dist"),
+        path: path.resolve(__dirname, "../dist"),
         // 入口文件打包输出文件名
         filename: "static/js/main.js",
         // 自动清空上次打包的内容
         // 原理：在打包前，将整个path目录清空，再进行打包
-        // 当前启用devServer开发服务器后，webpack便会在内存中打包
-        // 不会再在path下输出了，所以在devServer下，这个属性也就不需要了
-        // clean: true
+        clean: true
     },
     // 加载器
     module: {
@@ -101,30 +99,14 @@ module.exports = {
         // plugin的配置 通过new创建插件的实例
         new ESLintPlugin({
             // 检测哪些文件 检测./src目录下的文件
-            context: path.resolve(__dirname, "./src"),
+            context: path.resolve(__dirname, "../src"),
         }),
         new HtmlWebpackPlugin({
             // 以 public/index.html 为模板创建文件
             // 新的html文件有两个特点：1. 内容和源文件一致 2. 自动引入打包生成的js等资源
-            template: path.resolve(__dirname, "public/index.html"),
+            template: path.resolve(__dirname, "../public/index.html"),
         }),
     ],
-    // 开发服务器: 不会输出资源，在内存中编译打包的
-    devServer: {
-        host: "localhost", // 启动服务器域名
-        port: "3000", // 启动服务器端口号
-        // 是否自动打开谷歌浏览器 open: boolean string object [string, object]
-        open: {
-            app: {
-                // Linux
-                // name: 'google-chrome',
-                // window
-                // name: 'chrome',
-                // Mac
-                name: 'Google Chrome'
-            },
-        },
-    },
     // 模式 开发模式
-    mode: "development"
+    mode: "production"
 }
