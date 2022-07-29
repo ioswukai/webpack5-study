@@ -131,5 +131,8 @@ module.exports = {
         },
     },
     // 模式 开发模式
-    mode: "development"
+    mode: "development",
+    // 启用SourceMap 仅映射行
+    devtool: "cheap-module-source-map"
+
 }

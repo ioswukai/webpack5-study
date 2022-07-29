@@ -155,5 +155,8 @@ module.exports = {
         new CssMinimizerPlugin(),
     ],
     // 模式 开发模式
-    mode: "production"
+    mode: "production",
+    // 启用SourceMap 映射 行和列，速度更慢
+    devtool: "source-map"
+
 }
