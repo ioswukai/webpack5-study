@@ -14,7 +14,10 @@ const result = count(2, 1)
 console.log(result);
 console.log(sum(1, 2, 3, 4, 5));
 document.getElementById("btn").onclick = function () {
-    import("./js/math").then(({mul}) => {
+    // eslint会对动态导入语法报错，需要修改eslint配置文件
+    // webpackChunkName: "math"：这是webpack动态导入模块命名的方式，也叫魔法命名
+    // "math"将来就会作为[name]的值显示。
+    import(/* webpackChunkName: "math" */ "./js/math").then(({mul}) => {
         console.log(mul(3, 3));
     })
 }
