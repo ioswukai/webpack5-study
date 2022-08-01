@@ -15,7 +15,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 // 引入 内置的TerserWebpackPlugin插件构造函数
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 // 引入 ImageMinimizerPlugin插件构造函数
-// const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 // cpu核数
 const threads = os.cpus().length;
@@ -240,7 +240,7 @@ module.exports = {
             new TerserWebpackPlugin({
                 parallel: threads, // 开启多进程和设置进程数量
             }),
-            // 压缩图片
+            // 压缩图片  下载压缩方式下不下来，要翻墙，因此注释掉插件的引入
             // new ImageMinimizerPlugin({
             //     minimizer: {
             //         implementation: ImageMinimizerPlugin.imageminGenerate,
