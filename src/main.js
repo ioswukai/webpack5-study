@@ -8,12 +8,16 @@ import "./less/index.less"
 import "./sass/index.sass"
 import "./sass/index.scss"
 import "./stylus/index.styl"
-import { mul } from "./js/math"
+// import { mul } from "./js/math"
 
 const result = count(2, 1)
 console.log(result);
 console.log(sum(1, 2, 3, 4, 5));
-console.log(mul(3, 3));
+document.getElementById("btn").onclick = function () {
+    import("./js/math").then(({mul}) => {
+        console.log(mul(3, 3));
+    })
+}
 
 // 判断是否支持热模块替换功能，因为低版本的浏览器可能不支持
 if (module.hot) {

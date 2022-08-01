@@ -14,4 +14,6 @@ module.exports = {
   rules: {
     "no-var": 2, // 增加规则，不能使用 var 定义变量
   },
+  // 使ESLint支持import()函数，解决动态导入语法报错的问题
+  plugins: ["import"]
 };

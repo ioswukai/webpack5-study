@@ -269,6 +269,11 @@ module.exports = {
             //     },
             // }),
         ],
+        // 代码分割配置
+        splitChunks: {
+            chunks: "all", // 对所有模块都进行分割
+            /** 其他的都有用默认值即可*/
+        }
     },
     // 模式 开发模式
     mode: "production",
