@@ -1,6 +1,7 @@
 module.exports = {
   // 继承 Eslint 官方的规则
   extends: ["eslint:recommended"],
+  parser: "@babel/eslint-parser", // 支持最新的最终 ECMAScript 标准
   // 在eslint检测时，哪些环境变量可以被使用，
   // 比如启用 node，console，window等全局变量
   env: {

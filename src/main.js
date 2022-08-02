@@ -29,3 +29,12 @@ if (module.hot) {
     module.hot.accept("./js/count");
     module.hot.accept("./js/sum");
 }
+
+new Promise((resolve) => {
+    setTimeout(() => {
+        resolve();
+    }, 1000);
+});
+
+const arr = [1, 2, 3, 4];
+console.log(arr.includes(1));
