@@ -172,6 +172,11 @@ module.exports = {
     optimization: {
         // 开发模式下不需要压缩
         minimizer: [],
+        // 代码分割配置
+        splitChunks: {
+            chunks: "all", // 对所有模块都进行分割
+            /** 其他的都有用默认值即可*/
+        },
     },
     // 开发服务器: 不会输出资源，在内存中编译打包的
     devServer: {

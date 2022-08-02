@@ -309,7 +309,12 @@ module.exports = {
         splitChunks: {
             chunks: "all", // 对所有模块都进行分割
             /** 其他的都有用默认值即可*/
-        }
+        },
+        // 提取runtime文件
+        runtimeChunk: {
+            // runtime文件命名规则  entrypoint入口文件， entrypoint.name入口文件的名称
+            name: (entrypoint) => `runtime~${entrypoint.name}.js`,
+        },
     },
     // 模式 开发模式
     mode: "production",
