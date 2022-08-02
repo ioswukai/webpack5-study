@@ -8,7 +8,13 @@ import "./less/index.less"
 import "./sass/index.sass"
 import "./sass/index.scss"
 import "./stylus/index.styl"
+// 后面使用import()进行动态导入
 // import { mul } from "./js/math"
+// 手动全部引入core-js
+// import "core-js";
+// 手动按需引入 使用配置babel.config.js 自动按需引入
+// import "core-js/es/promise";
+
 
 const result = count(2, 1)
 console.log(result);
