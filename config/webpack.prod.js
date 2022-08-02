@@ -54,12 +54,16 @@ module.exports = {
         // 入口文件打包输出文件名
         // filename: "static/js/main.js",
         // [name]不写死为main，这样将来改成多入口也是没问题的
-        filename: "static/js/[name].js",
+        // filename: "static/js/[name].js",
+        // 增加[contenthash:8]后缀，使用contenthash，取8位长度
+        filename: "static/js/[name].[contenthash:8].js",
         // 其他文件打包输出文件名
         // chunkFilename: "static/js/[name].js",
         // 增加一个chunk后缀，便于区分谁是主文件，谁是其他的chunk文件
-        chunkFilename: "static/js/[name].chunk.js",
-        // 图片、字体等通过type:asset处理资源命名方式
+        // chunkFilename: "static/js/[name].chunk.js",
+        // 增加[contenthash:8]后缀，使用contenthash，取8位长度
+        chunkFilename: "static/js/[name].[contenthash:8].chunk.js",
+        // 图片、字体等通过type:asset处理资源命名方式（注意用hash）
         assetModuleFilename: "static/media/[hash:10][ext][query]",
         // 自动清空上次打包的内容
         // 原理：在打包前，将整个path目录清空，再进行打包
@@ -209,9 +213,13 @@ module.exports = {
             // 输出文件的名称，默认把所有`css样式`打包成一个main.css文件输出
             // filename: "static/css/main.css",
             // 多入口打包，可能会存在多个css文件，所以使用[name]
-            filename: "static/css/[name].[contenthash:10].css",
+            // filename: "static/css/[name].css",
+            // 增加[contenthash:8]后缀，使用contenthash，取8位长度
+            filename: "static/css/[name].[contenthash:8].css",
             // 如果动态导入的文件中有css，则也会生成css的chunk文件，所以需要配置chunkFilename
-            chunkFilename: "static/css/[name].chunk.[contenthash:10].css",
+            // chunkFilename: "static/css/[name].chunk.css",
+            // 增加[contenthash:8]后缀，使用contenthash，取8位长度
+            chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
         }),
         // css压缩 和 Terser的JS压缩，以及ImageMinimizerPlugin的图片压缩 可以放在optimization优化设置中也是一样的
         // new CssMinimizerPlugin(),
