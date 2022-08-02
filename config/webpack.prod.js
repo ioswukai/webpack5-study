@@ -16,6 +16,8 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 // 引入 ImageMinimizerPlugin插件构造函数
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+// 引入 PreloadWebpackPlugin插件构造函数
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 
 // cpu核数
 const threads = os.cpus().length;
@@ -243,6 +245,18 @@ module.exports = {
         //         },
         //     },
         // }),
+        new PreloadWebpackPlugin({
+            // js采用preload的方式去加载
+            // rel: "preload",
+            /**
+             * 在preload方式下，作为`script`标签的优先级去做
+             * 如果希望优先级最高，可以作为`style`标签的优先级去做，
+             * 如果是最高优先级，文件的解析可能会有问题
+             * prefetch无此as属性
+             * */
+            // as: "script",
+            rel: "prefetch",
+        }),
     ],
     // 优化
     optimization: {
