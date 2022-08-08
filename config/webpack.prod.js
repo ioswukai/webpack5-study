@@ -18,6 +18,9 @@ const TerserWebpackPlugin = require("terser-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 // 引入 PreloadWebpackPlugin插件构造函数
 const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
+// 引入 WorkboxPlugin插件构造函数
+const WorkboxPlugin = require("workbox-webpack-plugin");
+
 
 // cpu核数
 const threads = os.cpus().length;
@@ -264,6 +267,12 @@ module.exports = {
              * */
             // as: "script",
             rel: "prefetch",
+        }),
+        new WorkboxPlugin.GenerateSW({
+            // 这些选项帮助快速启用 ServiceWorkers
+            // 不允许遗留任何“旧的” ServiceWorkers
+            clientsClaim: true,
+            skipWaiting: true,
         }),
     ],
     // 优化

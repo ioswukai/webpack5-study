@@ -44,3 +44,20 @@ new Promise((resolve) => {
 
 const arr = [1, 2, 3, 4];
 console.log(arr.includes(1));
+
+// 有兼容性问题，需判断是否支持
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker
+            // 加载service-worker.js文件
+            .register("/service-worker.js")
+            .then((registration) => {
+                // 加载成功输出
+                console.log("SW registered: ", registration);
+            })
+            .catch((registrationError) => {
+                // 加载失败回调
+                console.log("SW registration failed: ", registrationError);
+            });
+    });
+}
